@@ -14,3 +14,21 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/templatetest', function () {
+    return view('templatetest');
+});
+
+Route::get('/test/{bar?}', function ($bar = "default") {
+    return $bar;
+});
+
+Route::get('/blade/{name?}', function($name = 'kakaka') {
+    $items = ['apple', 'banana', 'orange', 'mu'];
+    return view('bladetest', [
+        'name' => $name, 
+        'greeting' => 'Hiii',
+        'item' => $items,
+        'drink' => [3,4],
+    ]);
+});
