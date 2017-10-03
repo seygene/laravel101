@@ -26,7 +26,7 @@ class ArticleController extends Controller
      */
     public function create()
     {
-        return __METHOD__ . '는 Article을 위한 Form을 보여주는 view를 반환합니다.';
+        return view('articles.create');
     }
 
     /**
@@ -35,9 +35,14 @@ class ArticleController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        return __METHOD__ . '는 Article을 만듭니다.';
+    public function store(\App\Http\Requests\ArticlesRequest $request)
+    {        
+        $article = \App\User::find(1)->articles()->create($request->all());
+        if(! $article) {
+            return back()->with('flash_message', '글이 저장되지 않았습니다.')->withInput();
+        }
+        
+        return redirect(route('articles.index'))->with('flash_message', '작성한 글이 저장되었습니다.');
     }
 
     /**
