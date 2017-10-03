@@ -11,9 +11,9 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'WelcomeController@index');
+
+Route::resource('/articles', 'ArticleController');
 
 Route::get('/templatetest', function () {
     return view('templatetest');
