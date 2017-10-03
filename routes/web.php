@@ -13,6 +13,31 @@
 
 Route::get('/', 'WelcomeController@index');
 
+Route::get('auth/login', function() {
+    $credentials = [
+        'email' => 'john@abc.com',
+        'password' => 'password'
+    ];
+    
+    if(! auth()->attempt($credentials)) {
+        return '로그인 실패!!';
+    }
+    return redirect('protected');
+});
+
+Route::get('protected', ['middleware'=>'auth', function() {
+    dump(session()->all());
+    if(!auth()->check()) {
+        //return "누구세요??";
+    }
+    return "어서오세요 ".auth()->user()->name;
+}]);
+
+Route::get('auth/logout', function() {
+    auth()->logout();
+    return "See you again~!";
+});
+
 Route::resource('/articles', 'ArticleController');
 
 Route::get('/templatetest', function () {
@@ -32,3 +57,7 @@ Route::get('/blade/{name?}', function($name = 'kakaka') {
         'drink' => [3,4],
     ]);
 });
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
