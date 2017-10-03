@@ -39,7 +39,11 @@ Route::get('auth/logout', function() {
 });
 
 Route::resource('/articles', 'ArticleController');
-
+/*
+DB::listen(function ($query) {
+    var_dump($query->sql);
+});
+*/
 Route::get('/templatetest', function () {
     return view('templatetest');
 });
