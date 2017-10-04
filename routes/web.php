@@ -45,6 +45,20 @@ DB::listen(function ($query) {
 });
 */
 
+Route::get('/mail', function() {
+    $article = App\Article::with('user')->find(1);
+    
+    return Mail::send(
+        'emails.articles.created',
+        compact('article'),
+        function ($message) use ($article) {
+            $message->from('abc@abc.com', 'LARA TEST');
+            $message->to('seygene@gmail.com');
+            $message->subject('새 글이 등록되었습니다. - ' . $article->title);
+        }
+    );
+});
+
 Route::get('/templatetest', function () {
     return view('templatetest');
 });
